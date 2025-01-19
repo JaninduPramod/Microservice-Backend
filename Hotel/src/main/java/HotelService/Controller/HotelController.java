@@ -31,7 +31,7 @@ public class HotelController {
     }
 
     @DeleteMapping("/deletehotel/{id}")
-    public String deleteUser(@PathVariable int id){
+    public String deleteHotel(@PathVariable int id){
         return hotelservice.DeleteHotel(id);
     }
 
