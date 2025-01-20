@@ -20,6 +20,7 @@
     <module>CabService</module>
     <module>UserService</module>
     <module>NotificationService</module>
+      <module>BookingService</module>
   </modules>
 
   <build>
