@@ -19,11 +19,11 @@ public class BookingEntity {
 
     private int hotel_id;
 
-    private String package_type;
-
-    private String dishes;
+    private int package_id;
 
     private String booking_status;
+
+    private int no_of_days;
 
 
 }
