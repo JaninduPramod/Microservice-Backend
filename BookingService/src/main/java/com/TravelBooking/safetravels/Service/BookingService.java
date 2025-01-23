@@ -33,24 +33,28 @@ public class BookingService {
 
     public void SaveBooking(BookingEntity booking)
     {
+
         Integer hotelID = booking.getHotel_id();
+        Integer packageID = booking.getPackage_id();
         Integer days = booking.getNo_of_days();
-
-
-        try
-        {
-            HotelEntity hotelResponse= webClient.get()
-                    .uri(uriBuilder -> uriBuilder.path("/gethotel/{id}").build(hotelID))
-                    .retrieve()
-                    .bodyToMono(HotelEntity.class)
-                    .block();
-
-//            System.out.println(hotelResponse.getPrice_perday());
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+        System.out.println("Days: " + days);
+        System.out.println("Hotel ID: " + hotelID);
+        System.out.println("Package ID: " + packageID);
+        System.out.println();
+//        try
+//        {
+//            HotelEntity hotelResponse= webClient.get()
+//                    .uri(uriBuilder -> uriBuilder.path("/gethotel/{id}").build(hotelID))
+//                    .retrieve()
+//                    .bodyToMono(HotelEntity.class)
+//                    .block();
+//
+//
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }
 
 
 //        bookingRepository.save(booking);
