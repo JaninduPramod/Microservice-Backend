@@ -54,7 +54,7 @@ public class BookingService {
 
             if(nPackages > hotelResponse.getAvailable_packages())
             {
-                return "Packages Ran Out !!!";
+                return "Packages Ran Out !!";
             }
             else
             {
