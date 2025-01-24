@@ -24,10 +24,8 @@ public class HotelEntity {
     @Column(name = "province")
     private String province;
 
-    @Column(name = "package_id")
-    private int package_id;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "available_packages")
+    private int available_packages;
 
 }

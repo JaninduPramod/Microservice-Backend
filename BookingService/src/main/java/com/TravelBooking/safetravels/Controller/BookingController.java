@@ -3,6 +3,7 @@ package com.TravelBooking.safetravels.Controller;
 import com.TravelBooking.safetravels.Model.BookingEntity;
 import com.TravelBooking.safetravels.Service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class BookingController {
     }
 
     @PostMapping("/newbooking")
-    public void addBooking(@RequestBody BookingEntity booking){
-        bookingService.SaveBooking(booking);
+    public ResponseEntity<String> addBooking(@RequestBody BookingEntity booking){
+        String message=bookingService.SaveBooking(booking);
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/deletebooking/{id}")

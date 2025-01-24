@@ -25,5 +25,9 @@ public class BookingEntity {
 
     private int no_of_days;
 
+    private int no_of_packages;
+
+    private int total_bill;
+
 
 }

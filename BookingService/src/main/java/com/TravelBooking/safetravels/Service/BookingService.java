@@ -1,6 +1,7 @@
 package com.TravelBooking.safetravels.Service;
 
 import HotelService.Model.HotelEntity;
+import HotelService.Model.PackageEntity;
 import com.TravelBooking.safetravels.Model.BookingEntity;
 import com.TravelBooking.safetravels.Repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,33 +32,49 @@ public class BookingService {
         return booking.orElse(null);
     }
 
-    public void SaveBooking(BookingEntity booking)
+    public String SaveBooking (BookingEntity booking)
     {
 
         Integer hotelID = booking.getHotel_id();
         Integer packageID = booking.getPackage_id();
         Integer days = booking.getNo_of_days();
-        System.out.println("Days: " + days);
-        System.out.println("Hotel ID: " + hotelID);
-        System.out.println("Package ID: " + packageID);
+        Integer nPackages = booking.getNo_of_packages();
         System.out.println();
-//        try
-//        {
-//            HotelEntity hotelResponse= webClient.get()
-//                    .uri(uriBuilder -> uriBuilder.path("/gethotel/{id}").build(hotelID))
-//                    .retrieve()
-//                    .bodyToMono(HotelEntity.class)
-//                    .block();
-//
-//
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
+
+        try
+        {
+            HotelEntity hotelResponse= webClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/gethotel/{id}").build(hotelID))
+                    .retrieve()
+                    .bodyToMono(HotelEntity.class)
+                    .block();
 
 
-//        bookingRepository.save(booking);
+            if(nPackages > hotelResponse.getAvailable_packages())
+            {
+                return "Packages Ran Out !!!";
+            }
+            else
+            {
+                PackageEntity packageResponse= webClient.get()
+                        .uri(uriBuilder -> uriBuilder.path("/getpackage/{id}").build(packageID))
+                        .retrieve()
+                        .bodyToMono(PackageEntity.class)
+                        .block();
+
+                booking.setTotal_bill(packageResponse.getPackagePrice()*nPackages*days);
+
+                bookingRepository.save(booking);
+                return "Booking Successfull ...";
+
+            }
+
+        }
+        catch(Exception e)
+        {
+            return e.toString();
+        }
+
     }
 
     public String DeleteBooking(int id) {

@@ -1,11 +1,9 @@
 package HotelService.Controller;
 
-
 import HotelService.Model.PackageEntity;
 import HotelService.Service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
