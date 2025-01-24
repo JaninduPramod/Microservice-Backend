@@ -15,11 +15,13 @@ import java.util.Optional;
 public class BookingService {
 
     private final WebClient webClient;
+    private final WebClient notificationClient;
 
     @Autowired
     private BookingRepository bookingRepository;
 
-    public BookingService(WebClient.Builder webClientBuilder) {
+    public BookingService(WebClient.Builder webClientBuilder, WebClient.Builder notificationClientBuilder) {
+        this.notificationClient = notificationClientBuilder.baseUrl("http://localhost:8083/api/v5").build();
         this.webClient = webClientBuilder.baseUrl("http://localhost:8080/api/v2").build();
     }
 
@@ -64,7 +66,16 @@ public class BookingService {
 
                 booking.setTotal_bill(packageResponse.getPackagePrice()*nPackages*days);
 
+
                 bookingRepository.save(booking);
+                notificationClient.post()
+                        .uri("/booking-confirmed")
+                        .bodyValue(booking.getBook_id())
+                        .retrieve()
+                        .bodyToMono(BookingEntity.class)
+                        .block();
+
+
                 return "Booking Successfull ...";
 
             }
