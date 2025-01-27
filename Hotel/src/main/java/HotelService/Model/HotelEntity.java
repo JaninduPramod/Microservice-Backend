@@ -1,14 +1,9 @@
 package HotelService.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Table(name="hotel")
 public class HotelEntity {
     @Id
@@ -28,4 +23,43 @@ public class HotelEntity {
     @Column(name = "available_packages")
     private int available_packages;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public int getAvailable_packages() {
+        return available_packages;
+    }
+
+    public void setAvailable_packages(int available_packages) {
+        this.available_packages = available_packages;
+    }
 }
