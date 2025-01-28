@@ -66,8 +66,12 @@ public class BookingService {
 
                 booking.setTotal_bill(packageResponse.getPackagePrice()*nPackages*days);
 
+                
 
                 bookingRepository.save(booking);
+
+
+
                 notificationClient.post()
                         .uri("/booking-confirmed")
                         .bodyValue(booking.getBook_id())
