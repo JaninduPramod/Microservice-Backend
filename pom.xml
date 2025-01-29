@@ -21,6 +21,8 @@
     <module>UserService</module>
 
       <module>BookingService</module>
+    <module>NotificationService</module>
+
   </modules>
 
   <build>
