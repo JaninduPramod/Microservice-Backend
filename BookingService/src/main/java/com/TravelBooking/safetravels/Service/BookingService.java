@@ -41,7 +41,10 @@ public class BookingService {
         Integer packageID = booking.getPackage_id();
         Integer days = booking.getNo_of_days();
         Integer nPackages = booking.getNo_of_packages();
-        System.out.println();
+        System.out.println(booking.getHotel_id());
+        System.out.println(booking.getPackage_id());
+        System.out.println(booking.getNo_of_days());
+        System.out.println(booking.getNo_of_packages());
 
         try
         {
@@ -51,6 +54,7 @@ public class BookingService {
                     .bodyToMono(HotelEntity.class)
                     .block();
 
+            System.out.println(hotelResponse.getAvailable_packages());
 
             if(nPackages > hotelResponse.getAvailable_packages())
             {

@@ -10,4 +10,9 @@ public class WebClientConfig {
     public WebClient bookingClient() {
         return WebClient.builder().baseUrl("http://localhost:8081").build();
     }
+
+    @Bean
+    public WebClient userClient() {
+        return WebClient.builder().baseUrl("http://localhost:8082").build();
+    }
 }
