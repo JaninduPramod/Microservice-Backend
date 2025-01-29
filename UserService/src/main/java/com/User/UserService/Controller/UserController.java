@@ -21,18 +21,19 @@ public class UserController {
     }
 
     @GetMapping("/getuser/{id}")
-    public UserEntity getUser(@PathVariable int id){
+    public UserEntity getUser(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @PostMapping("/newuser")
-    public void addUser(@RequestBody UserEntity user){
+    public void addUser(@RequestBody UserEntity user) {
         userService.SaveUser(user);
     }
 
     @DeleteMapping("/deleteuser/{id}")
-    public String deleteUser(@PathVariable int id){
+    public String deleteUser(@PathVariable int id) {
         return userService.DeleteUser(id);
     }
+
 
 }

@@ -33,6 +33,9 @@ public class BookingService {
         Optional<BookingEntity> booking = bookingRepository.findById(id);
         return booking.orElse(null);
     }
+    public List<BookingEntity> getBookingByUserId(int userId) {
+        return bookingRepository.findByUserId(userId);
+    }
 
     public String SaveBooking (BookingEntity booking)
     {
@@ -103,6 +106,7 @@ public class BookingService {
             return "Booking not found !!!";
         }
     }
+
 
 
 }

@@ -32,9 +32,16 @@ public class BookingController {
         return ResponseEntity.ok(message);
     }
 
+    @GetMapping("/getbookingbyuserid/{userId}")
+    public List<BookingEntity> getBookingByUserId(@PathVariable int userId){
+        return bookingService.getBookingByUserId(userId);
+    }
+
     @DeleteMapping("/deletebooking/{id}")
     public String deleteBooking(@PathVariable int id){
         return bookingService.DeleteBooking(id);
     }
+
+
 
 }
