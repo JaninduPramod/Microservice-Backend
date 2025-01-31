@@ -3,6 +3,8 @@ package com.Notification.NotificationService.Service;
 import com.TravelBooking.safetravels.Model.BookingEntity;
 import com.User.UserService.Model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -12,6 +14,10 @@ import java.util.List;
 public class NotificationService {
     private final WebClient webClient;
     private final WebClient UserClient;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
 
 
     @Autowired
@@ -30,7 +36,7 @@ public class NotificationService {
 
         System.out.println("Booking Status : "+booking.getBooking_status());
 
-        //////email eka methaninuth yawanna ona
+
 
     }
 
@@ -87,19 +93,19 @@ public class NotificationService {
                     .bodyToMono(BookingEntity.class)
                     .block();
 
-            //gattu email eka
+
             String email=processUserDetails(booking.getUser_id());
 
 
-            // Email eka yawana function eka call karanna
-            if("cancelled".equals(booking.getBooking_status()))
-            {
-                response= "Booking Cancelled !!!";
-                System.out.println("Email sent to : "+email);
-            }
-            else if ("payed".equals(booking.getBooking_status())) {
-                response= "Booking Payed ...";
-                System.out.println("Email sent to : "+email);
+            
+            if ("cancelled".equalsIgnoreCase(booking.getBooking_status())) {
+                response = "Booking Cancelled !!!";
+                sendEmail(email, "Booking Cancelled", "Your booking (ID: " + bookingId + ") has been cancelled.");
+                System.out.println("Email sent to: " + email);
+            } else if ("payed".equalsIgnoreCase(booking.getBooking_status())) {
+                response = "Booking Payed ...";
+                sendEmail(email, "Booking Payment Successful", "Your booking (ID: " + bookingId + ") has been successfully paid.");
+                System.out.println("Email sent to: " + email);
             }
 
 
@@ -114,6 +120,21 @@ public class NotificationService {
 
 
     }
+
+
+    private void sendEmail(String to, String subject, String text) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(text);
+            mailSender.send(message);
+            System.out.println("Email sent successfully!");
+        } catch (Exception e) {
+            System.err.println("Error sending email: " + e.getMessage());
+        }
+    }
+
 
     public String DeleteBookingStatus(int bookingId) {
         try {
