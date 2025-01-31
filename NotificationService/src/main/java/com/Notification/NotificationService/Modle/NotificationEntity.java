@@ -9,6 +9,7 @@ public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notify_id;
+
     private int user_id;
     private String user_email;
     private int book_id;

@@ -1,7 +1,10 @@
 package com.Notification.NotificationService.Service;
 
+import com.Notification.NotificationService.Modle.NotificationEntity;
+import com.Notification.NotificationService.Modle.NotificationRepository;
 import com.TravelBooking.safetravels.Model.BookingEntity;
 import com.User.UserService.Model.UserEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,7 +21,8 @@ public class NotificationService {
     @Autowired
     private JavaMailSender mailSender;
 
-
+    @Autowired
+    NotificationRepository notificationRepository;
 
     @Autowired
     public NotificationService(WebClient.Builder webClientBuilder, WebClient.Builder userClientBuilder) {
@@ -40,7 +44,7 @@ public class NotificationService {
 
     }
 
-    public String processUserDetails(int userId) {
+    public UserEntity processUserDetails(int userId) {
         try
         {
             UserEntity user = UserClient.get()
@@ -49,8 +53,8 @@ public class NotificationService {
                     .bodyToMono(UserEntity.class)
                     .block();
 
-            String email=user.getEmail();
-            return email;
+
+            return user;
         }
         catch (Exception e)
         {
@@ -83,6 +87,7 @@ public class NotificationService {
 
     }
 
+    @Transactional
     public String sendingBookingNotification(int bookingId) {
         String response = null;
         try
@@ -94,18 +99,36 @@ public class NotificationService {
                     .block();
 
 
-            String email=processUserDetails(booking.getUser_id());
-
+            UserEntity user = processUserDetails(booking.getUser_id());
+            String email=user.getEmail();
+            System.out.println("User Email : "+email);
 
             
             if ("cancelled".equalsIgnoreCase(booking.getBooking_status())) {
                 response = "Booking Cancelled !!!";
                 sendEmail(email, "Booking Cancelled", "Your booking (ID: " + bookingId + ") has been cancelled.");
+
+
+
+
                 System.out.println("Email sent to: " + email);
             } else if ("payed".equalsIgnoreCase(booking.getBooking_status())) {
                 response = "Booking Payed ...";
                 sendEmail(email, "Booking Payment Successful", "Your booking (ID: " + bookingId + ") has been successfully paid.");
                 System.out.println("Email sent to: " + email);
+
+                NotificationEntity notificationEntity = new NotificationEntity();
+                notificationEntity.setUser_id(booking.getUser_id());
+                notificationEntity.setUser_email(email);
+                notificationEntity.setBook_id(booking.getBook_id());
+                notificationEntity.setHotel_id(booking.getHotel_id());
+                notificationEntity.setPackage_id(booking.getPackage_id());
+                notificationEntity.setNo_of_days(booking.getNo_of_days());
+                notificationEntity.setNo_of_packages(booking.getNo_of_packages());
+                notificationEntity.setTotal_bill(booking.getTotal_bill());
+
+
+                notificationRepository.save(notificationEntity);
             }
 
 
