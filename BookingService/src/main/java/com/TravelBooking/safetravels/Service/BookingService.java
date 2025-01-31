@@ -137,6 +137,31 @@ public class BookingService {
         System.out.println("Booking ID : "+bookingId);
         System.out.println("Status : "+status);
 
+        String newUpdate=status;
+        bookingRepository.updateBookingStatus(bookingId,newUpdate);
+
+
+        try
+        {
+            String response =notificationClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/bookingstatus/{bookingId}").build(bookingId))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("Cannot call the Notification Service ...");
+
+        }
+
+
+
+
+
         return null;
 
 
