@@ -108,5 +108,49 @@ public class BookingService {
     }
 
 
+    public BookingEntity updateBookingStatus(int bookingId, BookingEntity updatedBooking) {
+
+        BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
+
+        if (existingBooking != null) {
+
+
+            existingBooking.setUser_id(updatedBooking.getUser_id());
+            existingBooking.setHotel_id(updatedBooking.getHotel_id());
+            existingBooking.setPackage_id(updatedBooking.getPackage_id());
+            existingBooking.setNo_of_days(updatedBooking.getNo_of_days());
+            existingBooking.setNo_of_packages(updatedBooking.getNo_of_packages());
+            existingBooking.setTotal_bill(updatedBooking.getTotal_bill());
+
+
+            bookingRepository.save(existingBooking);
+
+            return existingBooking;
+        } else {
+            throw new RuntimeException("Booking not found!");
+        }
+    }
+
+    public BookingEntity updateBookingStatus2(int bookingId, BookingEntity updatedBooking) {
+
+        BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
+
+        if (existingBooking != null) {
+
+            existingBooking.setBooking_status(updatedBooking.getBooking_status());
+
+
+            bookingRepository.save(existingBooking);
+
+            return existingBooking;
+        } else {
+            throw new RuntimeException("Booking not found!");
+        }
+    }
 
 }
+
+
+
+
+

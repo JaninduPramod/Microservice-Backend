@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getusers")
-    public List<UserEntity> getUsers() {
+    public List<UserEntity> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -34,6 +34,7 @@ public class UserController {
     public String deleteUser(@PathVariable int id) {
         return userService.DeleteUser(id);
     }
+
 
 
 }

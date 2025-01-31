@@ -1,7 +1,6 @@
-package com.TravelBooking.safetravels.Configuration;
+package com.User.UserService.Configaration;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -9,21 +8,21 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 
-@Configuration
-public class BookingWebClient {
+public class WebUserConfig {
 
-    @Bean
-    public WebClient webClient() {
-        return WebClient.builder().baseUrl("http://localhost:8080").build();
+
+        @Bean
+        public WebClient bookingClient() {
+        return WebClient.builder().baseUrl("http://localhost:8081").build();
     }
 
-    @Bean
-    public WebClient notificationClient() {
+        @Bean
+        public WebClient NotificationClient() {
         return WebClient.builder().baseUrl("http://localhost:8083").build();
     }
 
-    @Bean
-    public CorsWebFilter corsWebFilter() {
+        @Bean
+        public CorsWebFilter corsWebFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
@@ -33,4 +32,6 @@ public class BookingWebClient {
         source.registerCorsConfiguration("/**", config);
         return new CorsWebFilter(source);
     }
+
+
 }

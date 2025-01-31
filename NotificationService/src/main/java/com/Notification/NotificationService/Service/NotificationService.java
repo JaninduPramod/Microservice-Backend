@@ -93,6 +93,62 @@ public class NotificationService {
 
     }
 
+    public String DeleteBookingStatus(int bookingId) {
+        try {
+            webClient.delete()
+                    .uri(uriBuilder -> uriBuilder.path("/deletebooking/{id}").build(bookingId))
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+
+            return "Booking deleted successfully!";
+        } catch (Exception e) {
+            return "Something went wrong while deleting the booking!";
+        }
+    }
+    public String UpdateBookingStatus(int bookingId) {
+        try {
+            BookingEntity booking = webClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/getbooking/{id}").build(bookingId))
+                    .retrieve()
+                    .bodyToMono(BookingEntity.class)
+                    .block();
+
+            if (booking != null) {
+                // Update the booking status (example: setting it to "Confirmed")
+                booking.setBooking_status("Confirmed");
+
+                // Send PUT request to update the booking in the backend
+                webClient.put()
+                        .uri(uriBuilder -> uriBuilder.path("/updatebooking/{id}").build(bookingId))
+                        .bodyValue(booking)
+                        .retrieve()
+                        .bodyToMono(Void.class)
+                        .block();
+
+                return "Booking status updated successfully!";
+            } else {
+                return "Booking not found!";
+            }
+        } catch (Exception e) {
+            return "Error updating booking status: " + e.getMessage();
+        }
+    }
+
+
+//    public List<UserEntity> getAllUsers() {
+//        try {
+//            return UserClient.get()
+//                    .uri("/getallusers")
+//                    .retrieve()
+//                    .bodyToFlux(UserEntity.class)
+//                    .collectList()
+//                    .block();
+//        } catch (Exception e) {
+//            System.out.println("Something went wrong while fetching all users!");
+//            return null;
+//        }
+//    }
 
 
 }
