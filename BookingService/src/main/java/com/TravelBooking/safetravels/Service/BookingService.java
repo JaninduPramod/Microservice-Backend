@@ -108,7 +108,7 @@ public class BookingService {
     }
 
 
-    public BookingEntity updateBookingStatus(int bookingId, BookingEntity updatedBooking) {
+    public BookingEntity updateBooking(int bookingId, BookingEntity updatedBooking) {
 
         BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
 
@@ -131,21 +131,28 @@ public class BookingService {
         }
     }
 
-    public BookingEntity updateBookingStatus2(int bookingId, BookingEntity updatedBooking) {
-
-        BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
-
-        if (existingBooking != null) {
-
-            existingBooking.setBooking_status(updatedBooking.getBooking_status());
+    public BookingEntity updateBookingStatus(int bookingId, String status) {
 
 
-            bookingRepository.save(existingBooking);
+        System.out.println("Booking ID : "+bookingId);
+        System.out.println("Status : "+status);
 
-            return existingBooking;
-        } else {
-            throw new RuntimeException("Booking not found!");
-        }
+        return null;
+
+
+//        BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
+//
+//        if (existingBooking != null) {
+//
+//            existingBooking.setBooking_status(updatedBooking.getBooking_status());
+//
+//
+//            bookingRepository.save(existingBooking);
+//
+//            return existingBooking;
+//        } else {
+//            throw new RuntimeException("Booking not found!");
+//        }
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v4")
@@ -43,15 +44,18 @@ public class BookingController {
     }
 
     @PutMapping("/updatebooking/{id}")
-    public BookingEntity updateBookingStatus(@PathVariable int id, @RequestBody BookingEntity updatedBooking) {
-       return bookingService.updateBookingStatus(id ,updatedBooking);
-
-    }
-    @PutMapping("/updatebooking2/{id}")
-    public BookingEntity updateBookingStatus2(@PathVariable int id, @RequestBody BookingEntity updatedBooking) {
-        return bookingService.updateBookingStatus2(id ,updatedBooking);
-
+    public BookingEntity updateBooking(@PathVariable int id, @RequestBody BookingEntity updatedBooking) {
+       return bookingService.updateBooking(id ,updatedBooking);
     }
 
 
+    @PutMapping("/bookingchange/{id}")
+    public BookingEntity updateBookingStatus(@PathVariable int id,@RequestBody Map<String, String> requestBody){ {
+
+        String status=requestBody.get("booking_status");
+        return bookingService.updateBookingStatus(id,status);
+
+    }
+
+}
 }
