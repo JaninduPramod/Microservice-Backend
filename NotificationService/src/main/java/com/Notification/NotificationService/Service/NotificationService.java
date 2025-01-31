@@ -30,9 +30,11 @@ public class NotificationService {
 
         System.out.println("Booking Status : "+booking.getBooking_status());
 
+        //////email eka methaninuth yawanna ona
+
     }
 
-    public void processUserNotification(int userId) {
+    public String processUserDetails(int userId) {
         try
         {
             UserEntity user = UserClient.get()
@@ -41,12 +43,14 @@ public class NotificationService {
                     .bodyToMono(UserEntity.class)
                     .block();
 
-            System.out.println("User Name : "+user.getUsername());
+            String email=user.getEmail();
+            return email;
         }
         catch (Exception e)
         {
             System.out.println("Something went Wrong !!!");
         }
+        return null;
 
     }
 
@@ -73,7 +77,8 @@ public class NotificationService {
 
     }
 
-    public String processBookingStatus(int bookingId) {
+    public String sendingBookingNotification(int bookingId) {
+        String response = null;
         try
         {
             BookingEntity booking = webClient.get()
@@ -82,14 +87,31 @@ public class NotificationService {
                     .bodyToMono(BookingEntity.class)
                     .block();
 
-            return booking.getBooking_status();
+            //gattu email eka
+            String email=processUserDetails(booking.getUser_id());
+
+
+            // Email eka yawana function eka call karanna
+            if("cancelled".equals(booking.getBooking_status()))
+            {
+                response= "Booking Cancelled !!!";
+                System.out.println("Email sent to : "+email);
+            }
+            else if ("payed".equals(booking.getBooking_status())) {
+                response= "Booking Payed ...";
+                System.out.println("Email sent to : "+email);
+            }
+
+
+            return response;
 
 
         }
         catch (Exception e)
         {
-            return "Something went Wrong !!!";
+            return "Cannot fetch Booking Data !!!";
         }
+
 
     }
 
@@ -136,19 +158,7 @@ public class NotificationService {
     }
 
 
-//    public List<UserEntity> getAllUsers() {
-//        try {
-//            return UserClient.get()
-//                    .uri("/getallusers")
-//                    .retrieve()
-//                    .bodyToFlux(UserEntity.class)
-//                    .collectList()
-//                    .block();
-//        } catch (Exception e) {
-//            System.out.println("Something went wrong while fetching all users!");
-//            return null;
-//        }
-//    }
+
 
 
 }

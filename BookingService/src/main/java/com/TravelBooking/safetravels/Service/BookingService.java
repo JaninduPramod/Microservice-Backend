@@ -76,7 +76,7 @@ public class BookingService {
 
 
                 notificationClient.post()
-                        .uri("/booking-confirmed")
+                        .uri("/booking-opened")
                         .bodyValue(booking.getBook_id())
                         .retrieve()
                         .bodyToMono(BookingEntity.class)
@@ -134,9 +134,6 @@ public class BookingService {
     public BookingEntity updateBookingStatus(int bookingId, String status) {
 
 
-        System.out.println("Booking ID : "+bookingId);
-        System.out.println("Status : "+status);
-
         String newUpdate=status;
         bookingRepository.updateBookingStatus(bookingId,newUpdate);
 
@@ -144,11 +141,17 @@ public class BookingService {
         try
         {
             String response =notificationClient.get()
-                    .uri(uriBuilder -> uriBuilder.path("/bookingstatus/{bookingId}").build(bookingId))
+                    .uri(uriBuilder -> uriBuilder.path("/bookingnotification/{bookingId}").build(bookingId))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
 
+
+                BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
+
+                System.out.println("Response : "+response);
+
+                return existingBooking;
 
 
         }
@@ -158,31 +161,8 @@ public class BookingService {
 
         }
 
-
-
-
-
         return null;
 
-
-//        BookingEntity existingBooking = bookingRepository.findById(bookingId).orElse(null);
-//
-//        if (existingBooking != null) {
-//
-//            existingBooking.setBooking_status(updatedBooking.getBooking_status());
-//
-//
-//            bookingRepository.save(existingBooking);
-//
-//            return existingBooking;
-//        } else {
-//            throw new RuntimeException("Booking not found!");
-//        }
     }
 
 }
-
-
-
-
-
