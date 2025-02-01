@@ -38,4 +38,21 @@ public class Hotelservice {
             return "Hotel not found !!!";
         }
     }
+
+    public String updateHotel(HotelEntity hotel) {
+        Optional<HotelEntity> existingHotel = hotelRepository.findById(hotel.getId());
+        if (existingHotel.isPresent()) {
+
+            HotelEntity updatedHotel = existingHotel.get();
+            updatedHotel.setAddress(hotel.getAddress());
+            updatedHotel.setTelephone(hotel.getTelephone());
+            updatedHotel.setProvince(hotel.getProvince());
+            updatedHotel.setAvailable_packages(hotel.getAvailable_packages());
+            hotelRepository.save(updatedHotel);
+            return "Hotel updated successfully!";
+        } else {
+            return "Hotel not found!";
+        }
+    }
+
 }

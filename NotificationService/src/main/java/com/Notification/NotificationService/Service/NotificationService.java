@@ -40,8 +40,6 @@ public class NotificationService {
 
         System.out.println("Booking Status : "+booking.getBooking_status());
 
-
-
     }
 
     public UserEntity processUserDetails(int userId) {

@@ -35,4 +35,9 @@ public class HotelController {
         return hotelservice.DeleteHotel(id);
     }
 
+    @PutMapping("/updateHotel")
+    public String updateHotel(@RequestBody HotelEntity hotel) {
+        return hotelservice.updateHotel(hotel);
+    }
+
 }

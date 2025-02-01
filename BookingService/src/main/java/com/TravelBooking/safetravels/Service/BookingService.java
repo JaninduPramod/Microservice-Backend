@@ -69,10 +69,20 @@ public class BookingService {
 
                 booking.setTotal_bill(packageResponse.getPackagePrice()*nPackages*days);
 
-                
+
 
                 bookingRepository.save(booking);
 
+                int packagesUpdated = hotelResponse.getAvailable_packages() - nPackages;
+                hotelResponse.setAvailable_packages(packagesUpdated);
+
+
+                webClient.put()
+                        .uri("/updateHotel")
+                        .bodyValue(hotelResponse)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
 
                 notificationClient.post()
