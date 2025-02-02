@@ -41,10 +41,6 @@ public class NotificationController {
         return notificationService.UpdateBookingStatus(bookingId);
     }
 
-
-
-
-    // crud tika
     @GetMapping("/invoices")
     public List<NotificationEntity> allInvoices() {
         return notificationService.allInvoices();
