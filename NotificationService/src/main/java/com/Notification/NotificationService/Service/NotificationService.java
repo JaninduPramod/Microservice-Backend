@@ -200,7 +200,21 @@ public class NotificationService {
     }
 
 
+    //crud tika
+    public List<NotificationEntity> allInvoices() {
 
+        List<NotificationEntity> invoices = notificationRepository.findAll();
+        return invoices;
+    }
 
+    public NotificationEntity notificationById(int id) {
+        NotificationEntity invoice = notificationRepository.findById(id).orElse(null);
+        return invoice;
+    }
 
+    public String deleteInvoice(int id) {
+
+            notificationRepository.deleteById(id);
+            return "Invoice deleted successfully!";
+    }
 }
