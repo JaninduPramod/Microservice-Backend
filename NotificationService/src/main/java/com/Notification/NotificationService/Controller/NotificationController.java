@@ -1,5 +1,6 @@
 package com.Notification.NotificationService.Controller;
 
+import com.Notification.NotificationService.Modle.NotificationEntity;
 import com.Notification.NotificationService.Service.NotificationService;
 import com.TravelBooking.safetravels.Model.BookingEntity;
 import com.User.UserService.Model.UserEntity;
@@ -42,5 +43,21 @@ public class NotificationController {
 
 
 
+
+    // crud tika
+    @GetMapping("/invoices")
+    public List<NotificationEntity> allInvoices() {
+        return notificationService.allInvoices();
+    }
+
+    @GetMapping("/invoice/{id}")
+    public NotificationEntity notificationById(@PathVariable int id) {
+        return notificationService.notificationById(id);
+    }
+
+    @DeleteMapping("/invoice/{id}")
+    public String deleteInvoice(@PathVariable int id) {
+        return notificationService.deleteInvoice(id);
+    }
 
 }
