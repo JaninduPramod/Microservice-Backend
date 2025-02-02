@@ -216,6 +216,5 @@ public class NotificationService {
 
             notificationRepository.deleteById(id);
             return "Invoice deleted successfully!";
-
     }
 }
