@@ -179,10 +179,10 @@ public class NotificationService {
                     .block();
 
             if (booking != null) {
-                // Update the booking status (example: setting it to "Confirmed")
+
                 booking.setBooking_status("Confirmed");
 
-                // Send PUT request to update the booking in the backend
+
                 webClient.put()
                         .uri(uriBuilder -> uriBuilder.path("/updatebooking/{id}").build(bookingId))
                         .bodyValue(booking)
@@ -200,7 +200,7 @@ public class NotificationService {
     }
 
 
-    //crud tika
+
     public List<NotificationEntity> allInvoices() {
 
         List<NotificationEntity> invoices = notificationRepository.findAll();
