@@ -3,13 +3,12 @@ package com.Notification.NotificationService.Controller;
 import com.Notification.NotificationService.Modle.NotificationEntity;
 import com.Notification.NotificationService.Service.NotificationService;
 import com.TravelBooking.safetravels.Model.BookingEntity;
-import com.User.UserService.Model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/v5")
 public class NotificationController {
