@@ -24,6 +24,7 @@ public class UserController {
 
     @GetMapping("/getuser/{id}")
     public UserEntity getUser(@PathVariable int id) {
+
         return userService.getUserById(id);
     }
 
@@ -33,6 +34,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteuser/{id}")
+
     public String deleteUser(@PathVariable int id) {
         return userService.DeleteUser(id);
     }
@@ -62,28 +64,29 @@ public class UserController {
         user.setPassword(tempPassword);
         userService.updateUser(user);
 
-
         return "A temporary password has been sent to your email.";
     }
 
     @GetMapping("/getuserbyemail/{email}")
     public UserEntity getUserByEmail(@PathVariable String email) {
+
         return userService.getUserByEmail(email);
     }
 
     @PutMapping("/update")
     public UserEntity updateUser(@RequestBody UserEntity user) {
+
         return userService.update(user);
     }
 
 
 
     @ExceptionHandler(RuntimeException.class)
+
     public String handleException(RuntimeException e) {
+
         return e.getMessage();
     }
-
-
 
 }
 
