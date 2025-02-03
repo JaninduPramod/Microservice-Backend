@@ -46,39 +46,7 @@ public class UserService {
         }
     }
 
-    public UserEntity loginUser(String email, String password) {
-        Optional<UserEntity> user = userRepository.findByEmail(email);
 
-        if(user.isPresent() && user.get().getPassword().equals(password)) {
-            return user.get();
-        }
-
-        return null;
-    }
-
-
-    public UserEntity findUserByEmail(String email) {
-
-        return userRepository.findByEmail(email).orElse(null);
-    }
-
-    public void updateUser(UserEntity user) {
-
-        userRepository.save(user);
-    }
-
-    public UserEntity update(UserEntity user) {
-
-        return userRepository.save(user);
-    }
-
-
-    public UserEntity getUserByEmail(String email) {
-
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-
-        return user.orElse(null);
-    }
 
 
 
