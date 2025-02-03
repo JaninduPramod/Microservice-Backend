@@ -39,6 +39,56 @@ public class UserController {
         return userService.DeleteUser(id);
     }
 
+    @PostMapping("/login")
+    public String loginUser(@RequestBody UserEntity user) {
+        UserEntity foundUser = userService.loginUser(user.getEmail(), user.getPassword());
+
+        if (foundUser != null) {
+            return "Login successful";
+        }
+        else {
+            return "Invalid email or password";
+        }
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@RequestBody Map<String, String> requestBody) {
+        String email = requestBody.get("email");
+        UserEntity user = userService.findUserByEmail(email);
+
+        if (user == null) {
+            return "User not found!";
+        }
+
+        String tempPassword = UUID.randomUUID().toString().substring(0, 8);
+        user.setPassword(tempPassword);
+        userService.updateUser(user);
+
+        return "A temporary password has been sent to your email.";
+    }
+
+    @GetMapping("/getuserbyemail/{email}")
+    public UserEntity getUserByEmail(@PathVariable String email) {
+
+        return userService.getUserByEmail(email);
+    }
+
+    @PutMapping("/update")
+    public UserEntity updateUser(@RequestBody UserEntity user) {
+
+        return userService.update(user);
+    }
+
+
+
+    @ExceptionHandler(RuntimeException.class)
+
+    public String handleException(RuntimeException e) {
+
+        return e.getMessage();
+    }
+
+
 
 
 }
