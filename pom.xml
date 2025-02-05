@@ -17,7 +17,6 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>Hotel</module>
-    <module>CabService</module>
     <module>UserService</module>
 
       <module>BookingService</module>
