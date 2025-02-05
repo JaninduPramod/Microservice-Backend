@@ -33,11 +33,12 @@ public class UserController {
         userService.SaveUser(user);
     }
 
-    @DeleteMapping("/deleteuser/{id}")
 
+    @DeleteMapping("/deleteuser/{id}")
     public String deleteUser(@PathVariable int id) {
         return userService.DeleteUser(id);
     }
+
 
     @PostMapping("/login")
     public String loginUser(@RequestBody UserEntity user) {

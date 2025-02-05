@@ -29,7 +29,7 @@ public class UserService {
         Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
 
         if(existingUser.isPresent()){
-            throw new RuntimeException("Email already exists. Please use a different email.");
+            throw new RuntimeException("Email already exists! Please use a different email.");
         }
         userRepository.save(user);
     }
@@ -38,14 +38,13 @@ public class UserService {
         if(getUserById(id) != null)
         {
             userRepository.deleteById(id);
-            return "User deleted ...";
+            return "User Removed ...";
         }
         else
         {
-            return "User not found !!!";
+            return "User not found !";
         }
     }
-
 
     public UserEntity loginUser(String email, String password) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
@@ -80,7 +79,6 @@ public class UserService {
 
         return user.orElse(null);
     }
-
 
 }
 
