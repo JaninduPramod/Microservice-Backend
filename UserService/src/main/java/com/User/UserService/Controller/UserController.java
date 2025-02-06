@@ -3,11 +3,13 @@ package com.User.UserService.Controller;
 import com.User.UserService.Model.UserEntity;
 import com.User.UserService.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/v3")
@@ -53,20 +55,48 @@ public class UserController {
     }
 
     @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
-        UserEntity user = userService.findUserByEmail(email);
+        System.out.println(email);
+        String response = userService.generateOTP(email);
 
-        if (user == null) {
-            return "User not found!";
+        if (response.equals("unavailable")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-        String tempPassword = UUID.randomUUID().toString().substring(0, 8);
-        user.setPassword(tempPassword);
-        userService.updateUser(user);
-
-        return "A temporary password has been sent to your email.";
+        else
+        {
+            return ResponseEntity.ok(response);
+        }
     }
+
+
+
+
+
+
+
+
+    @GetMapping("/verify-otp")
+    public ResponseEntity<String> verifyOTP(@RequestParam String otp) {
+
+        String response = userService.processVerifyOTP(otp);
+
+        if (response.equals("invalid")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        else
+        {
+            return ResponseEntity.ok(response);
+        }
+    }
+
+
+
+
+
+
+
+
 
     @GetMapping("/getuserbyemail/{email}")
     public UserEntity getUserByEmail(@PathVariable String email) {
@@ -79,7 +109,6 @@ public class UserController {
 
         return userService.update(user);
     }
-
 
 
     @ExceptionHandler(RuntimeException.class)
